@@ -726,3 +726,10 @@ test('new EnforceContextEX config', async () => {
   await expect(e.enforceEx(enforceContext, 'alice', 'data1', 'read')).resolves.toStrictEqual([true, ['alice', 'data1', 'read']]);
   await expect(e.enforceEx(enforceContext, 'bob', 'data2', 'write')).resolves.toStrictEqual([true, ['bob', 'data2', 'write']]);
 });
+
+test('TestKeyGet2', async () => {
+  const e = await getEnforcerWithPath('examples/basic_keyget2_model.conf', 'examples/basic_keyget2_policy.csv');
+  expect(await e.enforce('alice', 'data')).toBe(false);
+  expect(await e.enforce('alice', '/data')).toBe(false);
+  expect(await e.enforce('alice', '/data/1')).toBe(true);
+});
