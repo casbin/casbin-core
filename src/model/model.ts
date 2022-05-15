@@ -42,8 +42,11 @@ export class Model {
   /**
    * constructor is the constructor for Model.
    */
-  constructor() {
+  public constructor(text?: string) {
     this.model = new Map<string, Map<string, Assertion>>();
+    if (text) {
+      this.loadModelFromText(text);
+    }
   }
 
   private loadAssertion(cfg: ConfigInterface, sec: string, key: string): boolean {
@@ -118,13 +121,6 @@ export class Model {
     }
 
     return true;
-  }
-
-  // loadModel loads the model from model CONF string.
-  public loadModel(string: string): void {
-    const cfg = Config.newConfig(string);
-
-    this.loadModelFromConfig(cfg);
   }
 
   // loadModelFromText loads the model from the text.
@@ -449,32 +445,4 @@ export class Model {
       }
     });
   }
-}
-
-/**
- * newModel creates a model.
- */
-export function newModel(...text: string[]): Model {
-  const m = new Model();
-
-  if (text.length === 2) {
-    if (text[0] !== '') {
-      m.loadModel(text[0]);
-    }
-  } else if (text.length === 1) {
-    m.loadModelFromText(text[0]);
-  } else if (text.length !== 0) {
-    throw new Error('Invalid parameters for model.');
-  }
-
-  return m;
-}
-
-/**
- * newModelFromString creates a model from a string which contains model text.
- */
-export function newModelFromString(text: string): Model {
-  const m = new Model();
-  m.loadModelFromText(text);
-  return m;
 }

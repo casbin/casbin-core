@@ -13,40 +13,15 @@
 // limitations under the License.
 
 import { ManagementEnforcer } from './managementEnforcer';
-import { Model, newModel } from './model';
+import { Model } from './model';
 import { Adapter, MemoryAdapter } from './persist';
 import { getLogger } from './log';
 import { arrayRemoveDuplicates } from './util';
-import { RoleManager } from './rbac';
 
 /**
  * Enforcer = ManagementEnforcer + RBAC API.
  */
 export class Enforcer extends ManagementEnforcer {
-  /**
-   * initWithString initializes an enforcer with a model file and a policy file.
-   * @param modelString model file content
-   * @param policyString policy CSV string
-   * @param lazyLoad whether to load policy at initial time
-   */
-  public async initWithString(modelString: string, policyString: string, lazyLoad = false): Promise<void> {
-    const a = new MemoryAdapter(policyString);
-    await this.initWithAdapter(modelString, a, lazyLoad);
-  }
-
-  /**
-   * initWithAdapter initializes an enforcer with a database adapter.
-   * @param modelPath model file path
-   * @param adapter current adapter instance
-   * @param lazyLoad whether to load policy at initial time
-   */
-  public async initWithAdapter(modelPath: string, adapter: Adapter, lazyLoad = false): Promise<void> {
-    const m = newModel(modelPath, '');
-    await this.initWithModelAndAdapter(m, adapter, lazyLoad);
-
-    this.modelPath = modelPath;
-  }
-
   /**
    * initWithModelAndAdapter initializes an enforcer with a model and a database adapter.
    * @param m model instance
@@ -435,63 +410,53 @@ export class Enforcer extends ManagementEnforcer {
   }
 }
 
-export async function newEnforcerWithClass<T extends Enforcer>(enforcer: new () => T, ...params: any[]): Promise<T> {
+export async function newEnforcerWithClass<T extends Enforcer>(
+  enforcer: new () => T,
+  model?: Model,
+  adapter: Adapter = new MemoryAdapter([]),
+  enableLog = false
+): Promise<T> {
   const e = new enforcer();
 
-  let parsedParamLen = 0;
-  if (params.length >= 1) {
-    const enableLog = params[params.length - 1];
-    if (typeof enableLog === 'boolean') {
-      getLogger().enableLog(enableLog);
-      parsedParamLen++;
-    }
+  if (enableLog) {
+    getLogger().enableLog(enableLog);
   }
 
-  if (params.length - parsedParamLen === 2) {
-    if (typeof params[0] === 'string') {
-      if (typeof params[1] === 'string') {
-        await e.initWithString(params[0].toString(), params[1].toString());
-      } else {
-        await e.initWithAdapter(params[0].toString(), params[1]);
-      }
-    } else {
-      if (typeof params[1] === 'string') {
-        throw new Error('Invalid parameters for enforcer.');
-      } else {
-        await e.initWithModelAndAdapter(params[0], params[1]);
-      }
-    }
-  } else if (params.length - parsedParamLen === 1) {
-    if (typeof params[0] === 'string') {
-      await e.initWithString(params[0], '');
-    } else {
-      await e.initWithModelAndAdapter(params[0]);
-    }
-  } else if (params.length === parsedParamLen) {
-    await e.initWithString('', '');
-  } else {
-    throw new Error('Invalid parameters for enforcer.');
+  if (model) {
+    await e.initWithModelAndAdapter(model, adapter);
   }
 
   return e;
 }
 
 /**
- * newEnforcer creates an enforcer via string or DB.
+ * newEnforcer creates an enforcer via Model and Adapter.
  *
- * String:
- * ```js
- * const e = new Enforcer('content of basic_model.conf', 'content of basic_policy.csv');
- * ```
+ * @example
+ * const m = new Model(`
+ * [request_definition]
+ * r = sub, obj, act
  *
- * MySQL DB:
- * ```js
- * const a = new MySQLAdapter('mysql', 'mysql_username:mysql_password@tcp(127.0.0.1:3306)/');
- * const e = new Enforcer('path/to/basic_model.conf', a);
- * ```
+ * [policy_definition]
+ * p = sub, obj, act
  *
- * @param params
+ * [policy_effect]
+ * e = some(where (p.eft == allow))
+ *
+ * [matchers]
+ * m = r.sub == p.sub && r.obj == p.obj && r.act == p.act`)
+ * `)
+ *
+ * const a = new MemoryAdapter(`
+ * p, alice, data1, read
+ * p, bob, data2, write
+ * `)
+ * const e = await newEnforcer(m, a, true)
+ *
+ * @param model the Model instance
+ * @param adapter the Adapter instance
+ * @param enableLog whether to enable the logging
  */
-export async function newEnforcer(...params: any[]): Promise<Enforcer> {
-  return newEnforcerWithClass(Enforcer, ...params);
+export async function newEnforcer(model?: Model, adapter: Adapter = new MemoryAdapter([]), enableLog = false): Promise<Enforcer> {
+  return newEnforcerWithClass(Enforcer, model, adapter, enableLog);
 }

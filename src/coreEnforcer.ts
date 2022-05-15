@@ -15,7 +15,7 @@
 import { compile, compileAsync, addBinaryOp } from 'expression-eval';
 
 import { DefaultEffector, Effect, Effector } from './effect';
-import { FunctionMap, Model, newModel, PolicyOp } from './model';
+import { FunctionMap, Model, PolicyOp } from './model';
 import { Adapter, FilteredAdapter, Watcher } from './persist';
 import { DefaultRoleManager, RoleManager } from './rbac';
 import { EnforceContext } from './enforceContext';
@@ -42,7 +42,6 @@ type EnforceResult = Generator<(boolean | [boolean, string[]]) | Promise<boolean
  * CoreEnforcer defines the core functionality of an enforcer.
  */
 export class CoreEnforcer {
-  protected modelPath: string;
   protected model: Model;
   protected fm: FunctionMap = FunctionMap.loadFunctionMap();
   protected eft: Effector = new DefaultEffector();
@@ -70,17 +69,6 @@ export class CoreEnforcer {
       this.matcherMap.set(matcherKey, expression);
     }
     return expression;
-  }
-
-  /**
-   * loadModel reloads the model from the model CONF string.
-   * Because the policy is attached to a model,
-   * so the policy is invalidated and needs to be reloaded by calling LoadPolicy().
-   */
-  public loadModel(): void {
-    this.model = newModel();
-    this.model.loadModel(this.modelPath);
-    this.model.printModel();
   }
 
   /**
@@ -196,6 +184,7 @@ export class CoreEnforcer {
    * loadPolicy reloads the policy from adapter.
    */
   public async loadPolicy(): Promise<void> {
+    this.initRmMap();
     this.model.clearPolicy();
     await this.adapter.loadPolicy(this.model);
 

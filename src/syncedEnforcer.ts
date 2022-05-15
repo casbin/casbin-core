@@ -14,8 +14,9 @@
 
 import { Enforcer, newEnforcerWithClass } from './enforcer';
 import AwaitLock from 'await-lock';
-import { Watcher } from './persist';
+import { Adapter, MemoryAdapter, Watcher } from './persist';
 import { MatchingFunc } from './rbac';
+import { Model } from './model';
 
 // SyncedEnforcer wraps Enforcer and provides synchronized access
 export class SyncedEnforcer extends Enforcer {
@@ -503,6 +504,6 @@ export class SyncedEnforcer extends Enforcer {
 }
 
 // newSyncedEnforcer creates a synchronized enforcer via adapter.
-export async function newSyncedEnforcer(...params: any[]): Promise<SyncedEnforcer> {
-  return newEnforcerWithClass(SyncedEnforcer, ...params);
+export async function newSyncedEnforcer(model?: Model, adapter: Adapter = new MemoryAdapter([]), enableLog = false): Promise<Enforcer> {
+  return newEnforcerWithClass(SyncedEnforcer, model, adapter, enableLog);
 }

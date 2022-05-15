@@ -14,7 +14,7 @@
 // noinspection JSMismatchedCollectionQueryUpdate
 
 import * as _ from 'lodash';
-import { DefaultRoleManager, Enforcer, newModel } from '../src';
+import { DefaultRoleManager, Enforcer, Model } from '../src';
 import { keyMatch2Func, keyMatch3Func, keyMatchFunc } from '../src/util';
 import { getEnforcerWithPath } from './utils';
 
@@ -337,7 +337,7 @@ test('TestPriorityModelIndeterminate', async () => {
 });
 
 test('TestMatcher', async () => {
-  const m = newModel();
+  const m = new Model();
 
   m.addDef('m', 'm', 'keyMatch(r.obj, ".*get$") || regexMatch(r.act, ".user.")');
 

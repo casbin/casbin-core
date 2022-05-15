@@ -1,5 +1,4 @@
-import { ConfigInterface, newModel, newModelFromString, requiredSections, sectionNameMap } from '../../src';
-import { readFileSync } from 'fs';
+import { ConfigInterface, Model, requiredSections, sectionNameMap } from '../../src';
 
 class MockConfig implements ConfigInterface {
   public data = new Map<string, string>();
@@ -29,8 +28,6 @@ class MockConfig implements ConfigInterface {
   }
 }
 
-const basicExample = 'examples/basic_model.conf';
-
 const basicConfig = new MockConfig();
 basicConfig.data.set('request_definition::r', 'sub, obj, act');
 basicConfig.data.set('policy_definition::p', 'sub, obj, act');
@@ -38,22 +35,16 @@ basicConfig.data.set('policy_effect::e', 'some(where (p.eft == allow))');
 basicConfig.data.set('matchers::m', 'r.sub == p.sub && r.obj == p.obj && r.act == p.act');
 
 test('TestNewModel', () => {
-  const m = newModel();
-
-  expect(m !== null).toBe(true);
-});
-
-test('TestNewModelFromString', () => {
-  const m = newModelFromString(readFileSync(basicExample).toString());
+  const m = new Model();
 
   expect(m !== null).toBe(true);
 });
 
 test('TestLoadModelFromConfig', (done) => {
-  let m = newModel();
+  let m = new Model();
   m.loadModelFromConfig(basicConfig);
 
-  m = newModel();
+  m = new Model();
 
   try {
     m.loadModelFromConfig(new MockConfig());

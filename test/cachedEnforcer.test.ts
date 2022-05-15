@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Enforcer, newCachedEnforcer } from '../src';
+import { Enforcer, MemoryAdapter, Model, newCachedEnforcer } from '../src';
 import { path2Content } from './utils';
 
 async function testEnforce(e: Enforcer, sub: string, obj: string, act: string, res: boolean): Promise<void> {
@@ -20,7 +20,9 @@ async function testEnforce(e: Enforcer, sub: string, obj: string, act: string, r
 }
 
 test('TestRBACModel', async () => {
-  const e = await newCachedEnforcer(path2Content('examples/rbac_model.conf'), path2Content('examples/rbac_policy.csv'));
+  const m = new Model(path2Content('examples/rbac_model.conf'));
+  const a = new MemoryAdapter(path2Content('examples/rbac_policy.csv'));
+  const e = await newCachedEnforcer(m, a);
 
   await testEnforce(e, 'alice', 'data1', 'read', true);
 });

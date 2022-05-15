@@ -5,27 +5,26 @@ export function path2Content(path: string): string {
   return readFileSync(path).toString().replace(new RegExp('\r\n', 'g'), '\n');
 }
 
-export async function getEnforcerWithPath(
-  modelPath?: string | Model,
-  policyPath?: string | Adapter,
-  logOption?: boolean
-): Promise<Enforcer> {
+export async function getEnforcerWithPath(modelPath?: string | Model, policyPath?: string | Adapter, logOption = false): Promise<Enforcer> {
   if (!modelPath) {
     return await newEnforcer();
   }
+
+  let m: Model;
   if (typeof modelPath === 'string') {
-    modelPath = path2Content(modelPath);
+    m = new Model(path2Content(modelPath));
+  } else {
+    m = modelPath;
   }
-  if (!policyPath) {
-    return await newEnforcer(modelPath);
-  }
+
+  let a: Adapter | undefined;
   if (typeof policyPath === 'string') {
-    policyPath = path2Content(policyPath);
+    a = new MemoryAdapter(path2Content(policyPath));
+  } else {
+    a = policyPath;
   }
-  if (!logOption) {
-    return await newEnforcer(modelPath, policyPath);
-  }
-  return await newEnforcer(modelPath, policyPath, logOption);
+
+  return await newEnforcer(m, a, logOption);
 }
 
 export function getStringAdapter(path: string): MemoryAdapter {

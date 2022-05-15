@@ -15,7 +15,7 @@
 import { readFileSync } from 'fs';
 
 import { NewEnforceContext, EnforceContext } from '../src/enforceContext';
-import { newModel, newEnforcer, Enforcer, MemoryAdapter, Util } from '../src';
+import { newEnforcer, Enforcer, MemoryAdapter, Util, Model } from '../src';
 import { getEnforcerWithPath, getStringAdapter } from './utils';
 
 async function testEnforce(e: Enforcer, sub: any, obj: string, act: string, res: boolean): Promise<void> {
@@ -42,7 +42,7 @@ async function testGetPolicy(e: Enforcer, res: string[][]): Promise<void> {
 }
 
 test('TestKeyMatchModelInMemory', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r', 'sub, obj, act');
   m.addDef('p', 'p', 'sub, obj, act');
   m.addDef('e', 'e', 'some(where (p.eft == allow))');
@@ -101,7 +101,7 @@ test('TestKeyMatchModelInMemory', async () => {
 });
 
 test('TestKeyMatchModelInMemoryDeny', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r', 'sub, obj, act');
   m.addDef('p', 'p', 'sub, obj, act');
   m.addDef('e', 'e', '!some(where (p.eft == deny))');
@@ -115,7 +115,7 @@ test('TestKeyMatchModelInMemoryDeny', async () => {
 });
 
 test('TestRBACModelInMemoryIndeterminate', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r', 'sub, obj, act');
   m.addDef('p', 'p', 'sub, obj, act');
   m.addDef('g', 'g', '_, _');
@@ -130,7 +130,7 @@ test('TestRBACModelInMemoryIndeterminate', async () => {
 });
 
 test('TestRBACModelInMemory', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r', 'sub, obj, act');
   m.addDef('p', 'p', 'sub, obj, act');
   m.addDef('g', 'g', '_, _');
@@ -219,7 +219,7 @@ e = some(where (p.eft == allow))
 [matchers]
 m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act
 `;
-  const m = newModel(text);
+  const m = new Model(text);
   // The above is the same as:
   // const m = newModel();
   // m.loadModelFromText(text);
@@ -243,7 +243,7 @@ m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act
 });
 
 test('TestNotUsedRBACModelInMemory', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r', 'sub, obj, act');
   m.addDef('p', 'p', 'sub, obj, act');
   m.addDef('g', 'g', '_, _');
@@ -465,7 +465,7 @@ test('TestSetAdapterFromString', async () => {
 test('TestInitEmpty with File Adapter', async () => {
   const e = await getEnforcerWithPath();
 
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r', 'sub, obj, act');
   m.addDef('p', 'p', 'sub, obj, act');
   m.addDef('e', 'e', 'some(where (p.eft == allow))');
@@ -483,7 +483,7 @@ test('TestInitEmpty with File Adapter', async () => {
 test('TestInitEmpty with String Adapter', async () => {
   const e = await getEnforcerWithPath();
 
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r', 'sub, obj, act');
   m.addDef('p', 'p', 'sub, obj, act');
   m.addDef('e', 'e', 'some(where (p.eft == allow))');
@@ -560,7 +560,7 @@ test('test ABAC Scaling', async () => {
 });
 
 test('test ABAC multiple eval()', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r', 'sub, obj, act');
   m.addDef('p', 'p', 'sub_rule_1, sub_rule_2, act');
   m.addDef('e', 'e', 'some(where (p.eft == allow))');
@@ -579,7 +579,7 @@ test('test ABAC multiple eval()', async () => {
 });
 
 test('TestEnforceSync', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r', 'sub, obj, act');
   m.addDef('p', 'p', 'sub, obj, act');
   m.addDef('g', 'g', '_, _');
@@ -594,7 +594,7 @@ test('TestEnforceSync', async () => {
 });
 
 test('TestEnforceEx', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r', 'sub, obj, act');
   m.addDef('p', 'p', 'sub, obj, act');
   m.addDef('g', 'g', '_, _');
@@ -610,7 +610,7 @@ test('TestEnforceEx', async () => {
 });
 
 test('TestSyncEnforceEx', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r', 'sub, obj, act');
   m.addDef('p', 'p', 'sub, obj, act');
   m.addDef('g', 'g', '_, _');
@@ -632,7 +632,7 @@ test('Test RBAC G2', async () => {
 });
 
 test('test ABAC multiple eval()', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r', 'sub, obj, act');
   m.addDef('p', 'p', 'sub_rule_1, sub_rule_2, act');
   m.addDef('e', 'e', 'some(where (p.eft == allow))');
@@ -660,7 +660,7 @@ test('TestBatchEnforce', async () => {
 });
 
 test('TestEnforce Multiple policies config', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r2', 'sub, obj, act');
   m.addDef('p', 'p2', 'sub, obj, act');
   m.addDef('g', 'g', '_, _');
@@ -677,7 +677,7 @@ test('TestEnforce Multiple policies config', async () => {
 });
 
 test('new EnforceContext config', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r2', 'sub, obj, act');
   m.addDef('p', 'p2', 'sub, obj, act');
   m.addDef('g', 'g', '_, _');
@@ -694,7 +694,7 @@ test('new EnforceContext config', async () => {
 });
 
 test('TestEnforceEX Multiple policies config', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r2', 'sub, obj, act');
   m.addDef('p', 'p2', 'sub, obj, act');
   m.addDef('g', 'g', '_, _');
@@ -711,7 +711,7 @@ test('TestEnforceEX Multiple policies config', async () => {
 });
 
 test('new EnforceContextEX config', async () => {
-  const m = newModel();
+  const m = new Model();
   m.addDef('r', 'r2', 'sub, obj, act');
   m.addDef('p', 'p2', 'sub, obj, act');
   m.addDef('g', 'g', '_, _');
