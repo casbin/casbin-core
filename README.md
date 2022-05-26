@@ -1,28 +1,28 @@
-# Node-Casbin
+# Casbin-Core
 
 [![NPM version][npm-image]][npm-url]
 [![NPM download][download-image]][download-url]
-[![install size](https://packagephobia.now.sh/badge?p=casbin)](https://packagephobia.now.sh/result?p=casbin)
-[![codebeat badge](https://codebeat.co/badges/c17c9ee1-da42-4db3-8047-9574ad2b23b1)](https://codebeat.co/projects/github-com-casbin-node-casbin-master)
-[![GitHub Actions](https://github.com/casbin/node-casbin/workflows/main/badge.svg)](https://github.com/casbin/node-casbin/actions)
-[![Coverage Status](https://coveralls.io/repos/github/casbin/node-casbin/badge.svg?branch=master)](https://coveralls.io/github/casbin/node-casbin?branch=master)
-[![Release](https://img.shields.io/github/release/casbin/node-casbin.svg)](https://github.com/casbin/node-casbin/releases/latest)
+[![install size](https://packagephobia.now.sh/badge?p=casbin-core)](https://packagephobia.now.sh/result?p=casbin-core)
+[![codebeat badge](https://codebeat.co/badges/c17c9ee1-da42-4db3-8047-9574ad2b23b1)](https://codebeat.co/projects/github-com-casbin-casbin-core-main)
+[![GitHub Actions](https://github.com/casbin/casbin-core/workflows/main/badge.svg)](https://github.com/casbin/node-casbin/actions)
+[![Coverage Status](https://coveralls.io/repos/github/casbin/node-casbin/badge.svg?branch=main)](https://coveralls.io/github/casbin/casbin-core?branch=main)
+[![Release](https://img.shields.io/github/release/casbin/casbin-core.svg)](https://github.com/casbin/casbin-core/releases/latest)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/casbin/lobby)
 
-[npm-image]: https://img.shields.io/npm/v/casbin.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/casbin
-[download-image]: https://img.shields.io/npm/dm/casbin.svg?style=flat-square
-[download-url]: https://npmjs.org/package/casbin
+[npm-image]: https://img.shields.io/npm/v/casbin-core.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/casbin-core
+[download-image]: https://img.shields.io/npm/dm/casbin-core.svg?style=flat-square
+[download-url]: https://npmjs.org/package/casbin-core
 
 💖 [**Looking for an open-source identity and access management solution like Okta, Auth0, Keycloak ? Learn more about: Casdoor**](https://casdoor.org/)
 
 <a href="https://casdoor.org/"><img src="https://user-images.githubusercontent.com/3787410/147868267-6ac74908-5654-4f9c-ac79-8852af9ff925.png" alt="casdoor" style="width: 50%; height: 50%"/></a>
 
-**News**: still worry about how to write the correct `node-casbin` policy? [Casbin online editor](http://casbin.org/en/editor) is coming to help!
+**News**: still worry about how to write the correct `casbin-core` policy? [Casbin online editor](http://casbin.org/en/editor) is coming to help!
 
 ![casbin Logo](casbin-logo.png)
 
-`node-casbin` is a powerful and efficient open-source access control library for Node.JS projects. It provides support for enforcing authorization based on various [access control models](https://en.wikipedia.org/wiki/Computer_security_model).
+`casbin-core` is a powerful and efficient open-source access control library for JavaScript projects. It provides support for enforcing authorization based on various [access control models](https://en.wikipedia.org/wiki/Computer_security_model).
 
 ## All the languages supported by Casbin:
 
@@ -48,12 +48,14 @@ https://casbin.org/docs/en/overview
 
 ## Installation
 
+**Note:** The project is under development and the API is unstable.
+
 ```shell script
 # NPM
-npm install casbin@beta --save
+npm install casbin-core@beta --save
 
 # Yarn
-yarn add casbin@beta
+yarn add casbin-core@beta
 ```
 
 ## Get started
@@ -61,7 +63,7 @@ yarn add casbin@beta
 New an enforcer with a model string and a memory policy, see [Model](#official-model) section for details:
 
 ```typescript
-import { newEnforcer, newModel, MemoryAdapter } from 'casbin';
+import { newEnforcer, newModel, MemoryAdapter } from 'casbin-core';
 
 const model = newModel(`
 [request_definition]
@@ -108,7 +110,7 @@ if (res) {
 }
 ```
 
-Besides the static policy file, `node-casbin` also provides API for permission management at run-time.
+Besides the static policy file, `casbin-core` also provides API for permission management at run-time.
 For example, You can get all the roles assigned to a user as below:
 
 ```typescript
@@ -143,7 +145,7 @@ https://casbin.org/docs/en/role-managers
 ## Contributors
 
 This project exists thanks to all the people who contribute.
-<a href="https://github.com/casbin/node-casbin/graphs/contributors"><img src="https://opencollective.com/node-casbin/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/casbin/casbin-core/graphs/contributors"><img src="https://opencollective.com/casbin-core/contributors.svg?width=890&button=false" /></a>
 
 ## Backers
 
@@ -174,6 +176,6 @@ This project is licensed under the [Apache 2.0 license](LICENSE).
 
 If you have any issues or feature requests, please contact us. PR is welcomed.
 
-- https://github.com/casbin/node-casbin/issues
+- https://github.com/casbin/casbin-core/issues
 - hsluoyz@gmail.com
 - Tencent QQ group: [546057381](//shang.qq.com/wpa/qunwpa?idkey=8ac8b91fc97ace3d383d0035f7aa06f7d670fd8e8d4837347354a31c18fac885)

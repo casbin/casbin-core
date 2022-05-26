@@ -1,7 +1,7 @@
 {
   "debug": true,
   "branches": [
-    "master",
+    "main",
     {
       "name": "beta",
       "channel": "beta",

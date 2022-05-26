@@ -20,18 +20,18 @@ export default {
   output: [
     {
       format: 'umd',
-      file: 'dist/casbin.js',
+      file: 'dist/casbin-core.js',
       name: 'casbin',
       sourcemap: true,
     },
     {
       format: 'es',
-      file: 'dist/casbin.mjs',
+      file: 'dist/casbin-core.mjs',
       sourcemap: true,
     },
     {
       format: 'es',
-      file: 'dist/casbin.esm.js',
+      file: 'dist/casbin-core.esm.js',
       sourcemap: true,
     },
   ],

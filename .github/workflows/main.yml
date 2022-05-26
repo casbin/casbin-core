@@ -25,18 +25,33 @@ jobs:
           flag-name: run-${{ matrix.node-version }}
           parallel: true
 
-  semantic-release:
-    needs: [test]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Run semantic-release
-        if: github.repository == 'casbin/node-casbin' && github.event_name == 'push'
-        run: yarn install && yarn semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+#  semantic-release:
+#    needs: [test]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - run: yarn install
+#      - name: Semantic Release
+#        uses: cycjimmy/semantic-release-action@v3
+#        with:
+#          semantic_version: 19.0.2
+#          extra_plugins: |
+#            @semantic-release/changelog@6.0.1
+#            @semantic-release/commit-analyzer@9.0.2
+#            @semantic-release/git@10.0.1
+#            @semantic-release/github@8.0.4
+#            @semantic-release/npm@9.0.1
+#            @semantic-release/release-notes-generator@10.0.3
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+#      - name: New release published
+#        if: steps.semantic.outputs.new_release_published == 'true'
+#        run: |
+#          echo ${{ steps.semantic.outputs.new_release_version }}
+#          echo ${{ steps.semantic.outputs.new_release_major_version }}
+#          echo ${{ steps.semantic.outputs.new_release_minor_version }}
+#          echo ${{ steps.semantic.outputs.new_release_patch_version }}
 
   finish:
     needs: test
