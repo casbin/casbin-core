@@ -6,7 +6,6 @@
   "typings": "lib/index.d.ts",
   "module": "es/index.js",
   "scripts": {
-    "postinstall": "husky install",
     "prepack": "run-s lint test build",
     "postpack": "run-s clean",
     "build": "run-s clean && run-p build:**",
@@ -18,7 +17,8 @@
     "fmt": "eslint . --ext .js,.ts --fix",
     "commit": "git-cz",
     "clean": "rimraf lib es dist",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.3.0",
