@@ -1,12 +1,11 @@
 {
-  "name": "casbin",
-  "version": "5.14.0-beta.2",
-  "description": "An authorization library that supports access control models like ACL, RBAC, ABAC in JavaScript",
+  "name": "casbin-core",
+  "version": "0.0.0-beta.2",
+  "description": "An authorization library that supports access control models like ACL, RBAC, ABAC in modern JavaScript platforms",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "module": "es/index.js",
   "scripts": {
-    "postinstall": "husky install",
     "prepack": "run-s lint test build",
     "postpack": "run-s clean",
     "build": "run-s clean && run-p build:**",
