@@ -167,10 +167,13 @@ function policyStringToArray(policy: string): string[][] {
   for (let line of lines) {
     const commentLabel = line.indexOf('#');
     if (commentLabel !== -1) {
-      line = line.substr(0, commentLabel);
+      line = line.substring(commentLabel, line.length);
     }
 
     line = line.trim();
+    if (line.length === 0) {
+      continue;
+    }
 
     if (endCommaRe.test(line)) {
       throw new Error('The csv standard does not allow a comma at the end of a sentence');
@@ -184,7 +187,7 @@ function policyStringToArray(policy: string): string[][] {
 
       // Remove parcel quotes
       if (quotaWrapperRe.test(slice)) {
-        slice = slice.substr(1, slice.length - 2);
+        slice = slice.substring(1, slice.length - 1);
       }
 
       if (slice.includes('""')) {
