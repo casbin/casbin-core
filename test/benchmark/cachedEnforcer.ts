@@ -298,6 +298,10 @@ export default async function BenchmarkEnforcerCached(): Promise<void> {
       `);
 
       const e = await newCachedEnforcer(model, adapter);
+
+      return async () => {
+        await e.enforce('alice', 'domain1', 'data1', 'read');
+      };
     }),
     cycle(),
     complete(),
