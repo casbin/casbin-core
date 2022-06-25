@@ -13,6 +13,7 @@
     "build:lib:esm": "tsc -p tsconfig.esm.json",
     "build:dist": "rollup -c",
     "test": "jest",
+    "benchmark": "ts-node test/benchmark index.ts",
     "lint": "eslint . --ext .js,.ts",
     "fmt": "eslint . --ext .js,.ts --fix",
     "commit": "git-cz",
