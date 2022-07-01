@@ -162,6 +162,29 @@ test('addPolicies', async () => {
   }
 });
 
+test('addPoliciesWithAffected', async () => {
+  const a = getStringAdapter('examples/rbac_policy.csv');
+  e.setAdapter(a);
+  let rules = [
+    ['jack', 'data4', 'read'],
+    ['katy', 'data4', 'write'],
+    ['leyo', 'data4', 'read'],
+  ];
+  let added = await e.addPoliciesWithAffected(rules);
+  expect(added).toStrictEqual([
+    ['jack', 'data4', 'read'],
+    ['katy', 'data4', 'write'],
+    ['leyo', 'data4', 'read'],
+  ]);
+
+  rules = [
+    ['jack', 'data4', 'read'],
+    ['ham', 'data4', 'write'],
+  ];
+  added = await e.addPoliciesWithAffected(rules);
+  expect(added).toStrictEqual([['ham', 'data4', 'write']]);
+});
+
 test('addNamedPolicy', async () => {
   const p = ['eve', 'data3', 'read'];
   const added = await e.addNamedPolicy('p', ...p);
@@ -230,6 +253,28 @@ test('removePolicies', async () => {
   for (const rule of rules) {
     expect(await e.hasPolicy(...rule)).toBe(false);
   }
+});
+
+test('removePoliciesWithAffected', async () => {
+  const a = getStringAdapter('examples/rbac_policy.csv');
+  e.setAdapter(a);
+  let rules = [
+    ['jack', 'data4', 'read'],
+    ['katy', 'data4', 'write'],
+    ['leyo', 'data4', 'read'],
+  ];
+  const added = await e.addPolicies(rules);
+  expect(added).toBe(true);
+  rules = [
+    ['ham', 'data4', 'write'],
+    ['katy', 'data4', 'write'],
+    ['leyo', 'data4', 'read'],
+  ];
+  const removed = await e.removePoliciesWithAffected(rules);
+  expect(removed).toStrictEqual([
+    ['katy', 'data4', 'write'],
+    ['leyo', 'data4', 'read'],
+  ]);
 });
 
 test('removeFilteredPolicy', async () => {
