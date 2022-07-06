@@ -251,6 +251,18 @@ export class ManagementEnforcer extends InternalEnforcer {
   }
 
   /**
+   * addPolicies adds authorization rules to the current policy.
+   * It ignores the already exisitig rule and continues adding the rules.
+   * It returns the affected rules.
+   *
+   * @param rules the "p" policy rules, ptype "p" is implicitly used.
+   * @return affected rules in the policy.
+   */
+  public async addPoliciesWithAffected(rules: string[][]): Promise<string[][]> {
+    return this.model.addPoliciesWithAffected('p', 'p', rules);
+  }
+
+  /**
    * addNamedPolicy adds an authorization rule to the current named policy.
    * If the rule already exists, the function returns false and the rule will not be added.
    * Otherwise the function returns true by adding the new rule.
@@ -321,6 +333,18 @@ export class ManagementEnforcer extends InternalEnforcer {
    */
   public async removePolicies(rules: string[][]): Promise<boolean> {
     return this.removeNamedPolicies('p', rules);
+  }
+
+  /**
+   * removePolicies removes authorization rules from the current policy.
+   * It ignores the missing rule and continues removing the rules.
+   * It returns the affected rules.
+   *
+   * @param rules the "p" policy rules, ptype "p" is implicitly used.
+   * @return affected rules in the policy.
+   */
+  public async removePoliciesWithAffected(rules: string[][]): Promise<string[][]> {
+    return this.model.removePoliciesWithAffected('p', 'p', rules);
   }
 
   /**

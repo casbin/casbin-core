@@ -445,4 +445,32 @@ export class Model {
       }
     });
   }
+
+  // addPoliciesWithAffected add policies and returns only the affected policies
+  public addPoliciesWithAffected(sec: string, ptype: string, rules: string[][]): string[][] {
+    const effected: string[][] = [];
+    for (const rule of rules) {
+      const ok = this.hasPolicy(sec, ptype, rule);
+      if (ok) {
+        continue;
+      }
+      effected.push(rule);
+      this.addPolicy(sec, ptype, rule);
+    }
+    return effected;
+  }
+
+  // removePoliciesWithAffected removes policies and returns only the affected policies
+  public removePoliciesWithAffected(sec: string, ptype: string, rules: string[][]): string[][] {
+    const effected: string[][] = [];
+    for (const rule of rules) {
+      const ok = this.hasPolicy(sec, ptype, rule);
+      if (!ok) {
+        continue;
+      }
+      effected.push(rule);
+      this.removePolicy(sec, ptype, rule);
+    }
+    return effected;
+  }
 }
