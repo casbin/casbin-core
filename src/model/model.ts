@@ -473,4 +473,14 @@ export class Model {
     }
     return effected;
   }
+
+  public getFieldIndex(ptype: string, field: string): number {
+    const assertion = this.model.get('p')?.get(ptype);
+    const pattern = `${ptype}_${field}`;
+    const index = assertion?.tokens.findIndex((n) => n === pattern);
+    if (index === undefined || index === -1) {
+      return -1;
+    }
+    return index;
+  }
 }

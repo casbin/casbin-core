@@ -190,6 +190,46 @@ export class Enforcer extends ManagementEnforcer {
   }
 
   /**
+   * GetAllUsersByDomain would get all users associated with the domain.
+   *
+   * @param domain the domain.
+   * @returns Array of all users in the domain.
+   */
+  public async getAllUsersByDomain(domain: string): Promise<string[]> {
+    const index = await this.getFieldIndex('p', 'dom');
+    if (index === -1) {
+      return [];
+    }
+    const users: string[] = [];
+    const m = new Map();
+    const g = this.model.model.get('g')?.get('g');
+    const p = this.model.model.get('p')?.get('p');
+
+    function getUser(index: number, policies: string[][], domain: string, m: Map<string, unknown>): string[] {
+      if (policies.length === 0 || policies[0].length <= index) {
+        return [];
+      }
+      const res: string[] = [];
+      for (const policy of policies) {
+        const ok = m.get(policy[0]);
+        if (policy[index] === domain && !ok) {
+          res.push(policy[0]);
+          m.set(policy[0], {});
+        }
+      }
+      return res;
+    }
+
+    if (g?.policy) {
+      users.push(...getUser(2, g?.policy, domain, m));
+    }
+    if (p?.policy) {
+      users.push(...getUser(index, p?.policy, domain, m));
+    }
+    return users;
+  }
+
+  /**
    * deleteUser deletes a user.
    * Returns false if the user does not exist (aka not affected).
    *
