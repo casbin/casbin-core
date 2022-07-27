@@ -16,15 +16,15 @@ import { Watcher } from './watcher';
 import { Model } from '../model';
 
 export interface WatcherEx extends Watcher {
-  UpdateForAddPolicy(sec: string, ptype: string, ...params: string[]): Promise<void>;
+  updateForAddPolicy(sec: string, ptype: string, ...params: string[]): Promise<void>;
 
-  UpdateForRemovePolicy(sec: string, ptype: string, ...params: string[]): Promise<void>;
+  updateForRemovePolicy(sec: string, ptype: string, ...params: string[]): Promise<void>;
 
-  UpdateForRemoveFilteredPolicy(sec: string, ptype: string, fieldIndex: number, ...fieldValues: string[]): Promise<void>;
+  updateForRemoveFilteredPolicy(sec: string, ptype: string, fieldIndex: number, ...fieldValues: string[]): Promise<void>;
 
-  UpdateForSavePolicy(model: Model): Promise<void>;
+  updateForSavePolicy(model: Model): Promise<void>;
 
-  UpdateForAddPolicies(sec: string, ptype: string, ...rules: string[][]): Promise<void>;
+  updateForAddPolicies(sec: string, ptype: string, ...rules: string[][]): Promise<void>;
 
-  UpdateForRemovePolicies(sec: string, ptype: string, ...rules: string[][]): Promise<void>;
+  updateForRemovePolicies(sec: string, ptype: string, ...rules: string[][]): Promise<void>;
 }
