@@ -213,4 +213,8 @@ export class InternalEnforcer extends CoreEnforcer {
     }
     return ok;
   }
+
+  public async getFieldIndex(ptype: string, field: string): Promise<number> {
+    return this.model.getFieldIndex(ptype, field);
+  }
 }

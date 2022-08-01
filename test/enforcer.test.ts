@@ -764,3 +764,9 @@ test('TestEnforceExWithPriorityModel', async () => {
   testEnforceEx(e, 'bob', 'data2', 'read', [true, ['data2_allow_group', 'data2', 'read', 'allow']]);
   testEnforceEx(e, 'alice', 'data2', 'read', [false, []]);
 });
+
+test('testgetAllUsersByDomain', async () => {
+  const e = await getEnforcerWithPath('examples/rbac_with_domains_model.conf', 'examples/rbac_with_domains_policy.csv');
+  expect(await e.getAllUsersByDomain('domain1')).toStrictEqual(['alice', 'admin']);
+  expect(await e.getAllUsersByDomain('domain2')).toStrictEqual(['bob', 'admin']);
+});
