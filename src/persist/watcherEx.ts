@@ -22,7 +22,7 @@ export interface WatcherEx extends Watcher {
 
   updateForRemoveFilteredPolicy(sec: string, ptype: string, fieldIndex: number, ...fieldValues: string[]): Promise<void>;
 
-  updateForSavePolicy(model: Model): Promise<void>;
+  updateForSavePolicy(model: Model): Promise<boolean>;
 
   updateForAddPolicies(sec: string, ptype: string, ...rules: string[][]): Promise<void>;
 
