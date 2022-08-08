@@ -31,6 +31,8 @@ export interface RoleManager {
   // GetUsers gets the users that inherits a role.
   // domain is a prefix to the users (can be used for other purposes).
   getUsers(name: string, ...domain: string[]): Promise<string[]>;
+  // getAllDomains would get all domains.
+  getAllDomains(): Promise<string[]>;
   // PrintRoles prints all the roles to log.
   printRoles(): Promise<void>;
 }

@@ -770,3 +770,24 @@ test('testgetAllUsersByDomain', async () => {
   expect(await e.getAllUsersByDomain('domain1')).toStrictEqual(['alice', 'admin']);
   expect(await e.getAllUsersByDomain('domain2')).toStrictEqual(['bob', 'admin']);
 });
+
+test('testgetAllDomains', async () => {
+  const e = await getEnforcerWithPath('examples/rbac_with_domains_model.conf', 'examples/rbac_with_domains_policy.csv');
+  expect(await e.getAllDomains()).toStrictEqual(['domain1', 'domain2']);
+});
+
+test('testdeleteAllUsersByDomain', async () => {
+  const e = await getEnforcerWithPath('examples/rbac_with_domains_model.conf', 'examples/rbac_with_domains_policy.csv');
+  expect(await e.getAllUsersByDomain('domain1')).toStrictEqual(['alice', 'admin']);
+  expect(await e.deleteAllUsersByDomain('domain1')).toBe(true);
+  expect(await e.getAllUsersByDomain('domain1')).toStrictEqual([]);
+});
+
+test('testdeleteDomains', async () => {
+  const e = await getEnforcerWithPath('examples/rbac_with_domains_model.conf', 'examples/rbac_with_domains_policy.csv');
+  expect(await e.getAllDomains()).toStrictEqual(['domain1', 'domain2']);
+  expect(await e.deleteDomains('domain1', 'domain2')).toBe(true);
+  expect(await e.enforce('alice', 'domain1', 'data1', 'read')).toBe(false);
+  expect(await e.getAllUsersByDomain('domain1')).toStrictEqual([]);
+  expect(await e.getAllUsersByDomain('domain2')).toStrictEqual([]);
+});

@@ -343,4 +343,17 @@ export class DefaultRoleManager implements RoleManager {
       });
     }
   }
+
+  /**
+   * getAllDomains would get all domains.
+   */
+  public async getAllDomains(): Promise<string[]> {
+    const domains: string[] = [];
+    this.allDomains.forEach((v, k, m) => {
+      if (k !== 'casbin::default') {
+        domains.push(k);
+      }
+    });
+    return domains;
+  }
 }
