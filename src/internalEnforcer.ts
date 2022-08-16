@@ -39,9 +39,13 @@ export class InternalEnforcer extends CoreEnforcer {
       }
     }
 
-    if (this.watcher && this.autoNotifyWatcher) {
+    if (this.autoNotifyWatcher) {
       // error intentionally ignored
-      this.watcher.update();
+      if (this.watcherEx) {
+        this.watcherEx.updateForAddPolicy(sec, ptype, ...rule);
+      } else if (this.watcher) {
+        this.watcher.update();
+      }
     }
 
     const ok = this.model.addPolicy(sec, ptype, rule);
@@ -75,9 +79,13 @@ export class InternalEnforcer extends CoreEnforcer {
       }
     }
 
-    if (this.watcher && this.autoNotifyWatcher) {
+    if (this.autoNotifyWatcher) {
       // error intentionally ignored
-      this.watcher.update();
+      if (this.watcherEx) {
+        this.watcherEx.updateForAddPolicies(sec, ptype, ...rules);
+      } else if (this.watcher) {
+        this.watcher.update();
+      }
     }
 
     const [ok, effects] = await this.model.addPolicies(sec, ptype, rules);
@@ -142,9 +150,13 @@ export class InternalEnforcer extends CoreEnforcer {
       }
     }
 
-    if (this.watcher && this.autoNotifyWatcher) {
+    if (this.autoNotifyWatcher) {
       // error intentionally ignored
-      this.watcher.update();
+      if (this.watcherEx) {
+        this.watcherEx.updateForRemovePolicy(sec, ptype, ...rule);
+      } else if (this.watcher) {
+        this.watcher.update();
+      }
     }
 
     const ok = await this.model.removePolicy(sec, ptype, rule);
@@ -176,9 +188,13 @@ export class InternalEnforcer extends CoreEnforcer {
       }
     }
 
-    if (this.watcher && this.autoNotifyWatcher) {
+    if (this.autoNotifyWatcher) {
       // error intentionally ignored
-      this.watcher.update();
+      if (this.watcherEx) {
+        this.watcherEx.updateForRemovePolicies(sec, ptype, ...rules);
+      } else if (this.watcher) {
+        this.watcher.update();
+      }
     }
 
     const [ok, effects] = this.model.removePolicies(sec, ptype, rules);
@@ -202,9 +218,13 @@ export class InternalEnforcer extends CoreEnforcer {
       }
     }
 
-    if (this.watcher && this.autoNotifyWatcher) {
+    if (this.autoNotifyWatcher) {
       // error intentionally ignored
-      this.watcher.update();
+      if (this.watcherEx) {
+        this.watcherEx.updateForRemoveFilteredPolicy(sec, ptype, fieldIndex, ...fieldValues);
+      } else if (this.watcher) {
+        this.watcher.update();
+      }
     }
 
     const [ok, effects] = this.model.removeFilteredPolicy(sec, ptype, fieldIndex, ...fieldValues);
