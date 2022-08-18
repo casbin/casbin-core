@@ -230,6 +230,50 @@ export class Enforcer extends ManagementEnforcer {
   }
 
   /**
+   * DeleteAllUsersByDomain would delete all users associated with the domain. Returns false if has no domain defined in model.
+   *
+   * @param domain the domain.
+   * @returns succeeds or not.
+   */
+  public async deleteAllUsersByDomain(domain: string): Promise<boolean> {
+    const index = await this.getFieldIndex('p', 'dom');
+    if (index === -1) {
+      return false;
+    }
+    const g = this.model.model.get('g')?.get('g');
+    const p = this.model.model.get('p')?.get('p');
+
+    function getUsers(policies: string[][], domain: string): string[][] {
+      if (policies.length === 0 || policies[0].length <= index) {
+        return [];
+      }
+      const res: string[][] = [];
+      for (const policy of policies) {
+        if (policy.indexOf(domain) !== -1) {
+          res.push(policy);
+        }
+      }
+      return res;
+    }
+
+    if (g?.policy && p?.policy) {
+      let users = getUsers(p?.policy, domain);
+      if (!(await this.removePolicies(users))) {
+        return false;
+      }
+
+      users = getUsers(g?.policy, domain);
+      if (!(await this.removeGroupingPolicies(users))) {
+        return false;
+      }
+    } else {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
    * deleteUser deletes a user.
    * Returns false if the user does not exist (aka not affected).
    *
@@ -264,6 +308,39 @@ export class Enforcer extends ManagementEnforcer {
    */
   public async deletePermission(...permission: string[]): Promise<boolean> {
     return this.removeFilteredPolicy(1, ...permission);
+  }
+
+  /**
+   * DeleteDomains would delete all associated users and roles.
+   * It would delete all domains if parameter is not provided.
+   *
+   * @param domains the domains to be deleted.
+   * @return succeeds or not.
+   */
+  public async deleteDomains(...domains: string[]): Promise<boolean> {
+    if (domains.length === 0) {
+      this.clearPolicy();
+      return true;
+    }
+
+    for (const domain of domains) {
+      if (!(await this.deleteAllUsersByDomain(domain))) {
+        return false;
+      }
+    }
+
+    const rm = this.getRoleManager();
+    await rm.clear();
+
+    return true;
+  }
+
+  /**
+   * getAllDomains would get all domains.
+   */
+  public async getAllDomains(): Promise<string[]> {
+    const rm = this.getRoleManager();
+    return rm.getAllDomains();
   }
 
   /**
