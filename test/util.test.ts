@@ -202,9 +202,7 @@ test('test policyStringToArray', () => {
     ['p', 'alice', 'data1', 'read'],
     ['p', 'bob', 'data1', 'write'],
   ]);
-});
-
-test('test policyArrayToString', () => {
+  expect(util.policyStringToArray(`\n\n"p"," alice","data1 ","read"\n\n`)).toEqual([['p', ' alice', 'data1 ', 'read']]);
   expect(util.policyArrayToString(['p', 'alice', 'data1', 'read'])).toEqual(`"p","alice","data1","read"`);
   expect(util.policyArrayToString(['p', 'alice ', ' data1', 'read'])).toEqual(`"p","alice "," data1","read"`);
 });
