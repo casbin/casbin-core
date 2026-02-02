@@ -8,6 +8,7 @@
   "scripts": {
     "prepack": "run-s lint test build",
     "postpack": "run-s clean",
+    "prepublishOnly": "yarn run lint && yarn build",
     "build": "run-s clean && run-p build:**",
     "build:lib:cjs": "tsc -p tsconfig.cjs.json",
     "build:lib:esm": "tsc -p tsconfig.esm.json",
@@ -19,7 +20,8 @@
     "commit": "git-cz",
     "clean": "rimraf lib es dist",
     "coverage": "jest --coverage",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "release": "npx -p semantic-release -p @semantic-release/git -p @semantic-release/changelog semantic-release"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.3.0",
