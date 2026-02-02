@@ -93,7 +93,7 @@ jobs:
           node-version: ^20
 
       - name: Run semantic-release
-        if: github.repository == 'casbin/casbin-core' && github.event_name == 'push'
+        if: github.repository == 'casbin/casbin-core' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           yarn install
           yarn run build
