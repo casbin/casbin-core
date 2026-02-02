@@ -56,8 +56,9 @@ test('TestLoadModelFromConfig', (done) => {
     }
 
     if (e instanceof Error) {
+      const errorMessage = e.message;
       requiredSections.forEach((n) => {
-        if (!e.message.includes(n)) {
+        if (!errorMessage.includes(n)) {
           throw new Error(`section name: ${sectionNameMap[n]} should be in message`);
         }
       });
