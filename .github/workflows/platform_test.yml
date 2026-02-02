@@ -20,11 +20,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Configure yarn registry
+        run: yarn config set registry https://registry.npmjs.org
+
       - name: Build casbin-core
         run: yarn install && yarn build && yarn link
 
       - name: Install and link React.js test
-        run: cd test/reactjs && yarn install && yarn link casbin-core
+        run: cd test/reactjs && yarn config set registry https://registry.npmjs.org && yarn install && yarn link casbin-core
 
       - name: Run React.js test
         run: cd test/reactjs && yarn test
@@ -46,11 +49,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Configure yarn registry
+        run: yarn config set registry https://registry.npmjs.org
+
       - name: Build casbin-core
         run: yarn install && yarn build && yarn link
 
       - name: Install React Native test dependencies
-        run: cd test/reactnative && yarn install && yarn global add jest
+        run: cd test/reactnative && yarn config set registry https://registry.npmjs.org && yarn install && yarn global add jest
 
       - name: Run React Native test
         run: cd test/reactnative && yarn test
@@ -69,6 +75,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Configure yarn registry
+        run: yarn config set registry https://registry.npmjs.org
+
       - name: Build casbin-core
         run: yarn install && yarn build && yarn link
 
@@ -76,7 +85,7 @@ jobs:
         run: yarn global add @angular/cli
 
       - name: Install and link Angular test
-        run: cd test/angular && yarn install && yarn link casbin-core
+        run: cd test/angular && yarn config set registry https://registry.npmjs.org && yarn install && yarn link casbin-core
 
       - name: Run Angular test
         run: cd test/angular && ng test --watch=false --browsers=ChromeHeadless
