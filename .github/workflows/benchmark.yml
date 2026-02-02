@@ -2,6 +2,9 @@ name: Benchmarks
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   benchmark:
     runs-on: ubuntu-latest

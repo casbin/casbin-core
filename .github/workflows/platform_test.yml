@@ -2,6 +2,9 @@ name: Platform Test
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   reactjs:
     runs-on: ubuntu-latest
