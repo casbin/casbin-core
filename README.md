@@ -14,10 +14,6 @@
 [download-image]: https://img.shields.io/npm/dm/casbin-core.svg?style=flat-square
 [download-url]: https://npmjs.org/package/casbin-core
 
-💖 [**Looking for an open-source identity and access management solution like Okta, Auth0, Keycloak ? Learn more about: Casdoor**](https://casdoor.org/)
-
-<a href="https://casdoor.org/"><img src="https://user-images.githubusercontent.com/3787410/147868267-6ac74908-5654-4f9c-ac79-8852af9ff925.png" alt="casdoor" style="width: 50%; height: 50%"/></a>
-
 **News**: still worry about how to write the correct `casbin-core` policy? [Casbin online editor](http://casbin.org/en/editor) is coming to help!
 
 ![casbin Logo](casbin-logo.png)
