@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
 
 permissions:
@@ -93,7 +93,7 @@ jobs:
           node-version: ^20
 
       - name: Run semantic-release
-        if: github.repository == 'casbin/casbin-core' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.repository == 'casbin/casbin-core' && github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: |
           yarn install
           yarn run build

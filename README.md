@@ -1,7 +1,7 @@
 # Casbin-Core
 
 [![CI](https://github.com/casbin/casbin-core/actions/workflows/ci.yml/badge.svg)](https://github.com/casbin/casbin-core/actions/workflows/ci.yml)
-[![Coverage Status](https://coveralls.io/repos/github/casbin/casbin-core/badge.svg?branch=main)](https://coveralls.io/github/casbin/casbin-core?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/casbin/casbin-core/badge.svg?branch=master)](https://coveralls.io/github/casbin/casbin-core?branch=master)
 [![NPM version][npm-image]][npm-url]
 [![NPM download][download-image]][download-url]
 [![Discord](https://img.shields.io/discord/1022748306096537660?logo=discord&label=discord&color=5865F2)](https://discord.gg/S5UjpzGZjN)
