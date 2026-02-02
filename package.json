@@ -19,7 +19,8 @@
     "commit": "git-cz",
     "clean": "rimraf lib es dist",
     "coverage": "jest --coverage",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "release": "semantic-release"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.3.0",
