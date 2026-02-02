@@ -16,9 +16,6 @@ jobs:
         with:
           node-version: ^20
 
-      - name: Configure yarn registry
-        run: yarn config set registry https://registry.npmjs.org
-
       - name: Install Dependency
         run: yarn install
 
@@ -38,9 +35,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ^20
-
-      - name: Configure yarn registry
-        run: yarn config set registry https://registry.npmjs.org
 
       - name: Install Dependency
         run: yarn install
@@ -66,9 +60,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-
-      - name: Configure yarn registry
-        run: yarn config set registry https://registry.npmjs.org
 
       - name: Install Dependency
         run: yarn install

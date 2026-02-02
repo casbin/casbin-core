@@ -20,9 +20,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Configure yarn registry
-        run: yarn config set registry https://registry.npmjs.org
-
       - name: Install Dependency
         run: yarn install && yarn global add ts-node
 
