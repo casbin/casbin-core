@@ -1,39 +1,82 @@
 name: Platform_test
+
 on: [push, pull_request]
+
 jobs:
   reactjs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        node-version: [^14, ^16, ^18]
+        node-version: [^18, ^20]
     steps:
       - uses: actions/checkout@v2
-      - run: yarn install && yarn build && yarn link
-      - run: cd test/reactjs && yarn install && yarn link casbin-core
-      - run: cd test/reactjs && yarn test
-      - run: cd test/reactjs && yarn build
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build casbin-core
+        run: yarn install && yarn build && yarn link
+
+      - name: Install and link React.js test
+        run: cd test/reactjs && yarn install && yarn link casbin-core
+
+      - name: Run React.js test
+        run: cd test/reactjs && yarn test
+
+      - name: Build React.js test
+        run: cd test/reactjs && yarn build
+
   reactnative:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        node-version: [^14, ^16, ^18]
+        node-version: [^18, ^20]
     steps:
       - uses: actions/checkout@v2
-      - run: yarn install && yarn build && yarn link
-      - run: cd test/reactnative && yarn install && yarn global add jest
-      - run: cd test/reactnative && yarn test
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build casbin-core
+        run: yarn install && yarn build && yarn link
+
+      - name: Install React Native test dependencies
+        run: cd test/reactnative && yarn install && yarn global add jest
+
+      - name: Run React Native test
+        run: cd test/reactnative && yarn test
+
   angular:
-      runs-on: ubuntu-latest
-      strategy:
-        fail-fast: false
-        matrix:
-          node-version: [^14, ^16, ^18]
-      steps:
-        - uses: actions/checkout@v2
-        - run: yarn install && yarn build && yarn link
-        - run: yarn global add @angular/cli
-        - run: cd test/angular && yarn install && yarn link casbin-core
-        - run: cd test/angular && ng test --watch=false --browsers=ChromeHeadless
-        - run: cd test/angular && yarn build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [^18, ^20]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build casbin-core
+        run: yarn install && yarn build && yarn link
+
+      - name: Install Angular CLI
+        run: yarn global add @angular/cli
+
+      - name: Install and link Angular test
+        run: cd test/angular && yarn install && yarn link casbin-core
+
+      - name: Run Angular test
+        run: cd test/angular && ng test --watch=false --browsers=ChromeHeadless
+
+      - name: Build Angular test
+        run: cd test/angular && yarn build

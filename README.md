@@ -1,18 +1,18 @@
 # Casbin-Core
 
+[![CI](https://github.com/casbin/casbin-core/actions/workflows/ci.yml/badge.svg)](https://github.com/casbin/casbin-core/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/casbin/casbin-core/badge.svg?branch=main)](https://coveralls.io/github/casbin/casbin-core?branch=main)
 [![NPM version][npm-image]][npm-url]
 [![NPM download][download-image]][download-url]
 [![install size](https://packagephobia.now.sh/badge?p=casbin-core)](https://packagephobia.now.sh/result?p=casbin-core)
 [![codebeat badge](https://codebeat.co/badges/c17c9ee1-da42-4db3-8047-9574ad2b23b1)](https://codebeat.co/projects/github-com-casbin-casbin-core-main)
-[![GitHub Actions](https://github.com/casbin/casbin-core/workflows/main/badge.svg)](https://github.com/casbin/node-casbin/actions)
-[![Coverage Status](https://coveralls.io/repos/github/casbin/node-casbin/badge.svg?branch=main)](https://coveralls.io/github/casbin/casbin-core?branch=main)
 [![Release](https://img.shields.io/github/release/casbin/casbin-core.svg)](https://github.com/casbin/casbin-core/releases/latest)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/casbin/lobby)
+[![Discord](https://img.shields.io/discord/1022748306096537660?logo=discord&label=discord&color=5865F2)](https://discord.gg/S5UjpzGZjN)
 
 [npm-image]: https://img.shields.io/npm/v/casbin-core.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/casbin-core
+[npm-url]: https://npmjs.com/package/casbin-core
 [download-image]: https://img.shields.io/npm/dm/casbin-core.svg?style=flat-square
-[download-url]: https://npmjs.org/package/casbin-core
+[download-url]: https://npmjs.com/package/casbin-core
 
 **News**: still worry about how to write the correct `casbin-core` policy? [Casbin online editor](http://casbin.org/en/editor) is coming to help!
 
