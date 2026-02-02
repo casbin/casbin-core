@@ -1,0 +1,71 @@
+name: CI
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ^20
+
+      - name: Install Dependency
+        run: yarn install
+
+      - name: Run Lint
+        run: yarn run lint
+
+  coverage:
+    needs: [lint]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ^20
+
+      - name: Install Dependency
+        run: yarn install
+
+      - name: Run Coverage
+        run: yarn run coverage
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    needs: [lint]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [^18, ^20]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install Dependency
+        run: yarn install
+
+      - name: Run Unit test
+        run: yarn run test
+
+      - name: Run Build
+        run: yarn run build
